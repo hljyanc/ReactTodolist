@@ -6,7 +6,9 @@ import TaskList from './components/TaskList';
 const App = () =>{
   const [tasks, setTasks] = useState([{
     content: 'Buy a book',
-    id: Math.random().toString()}]);
+    id: Math.random().toString(),
+    isComplete: false
+  }]);
 
   const [undoMessage, setUndoMessage] = useState(false);
   const [newUndoTask, setNewUndoTask] = useState({});
@@ -16,19 +18,34 @@ const App = () =>{
     setTasks((prev)=>[newTask, ...prev]);
   };
 
-  const removeOldTask = (targetTask) => {
-    setTasks((prev)=>prev.filter(task => task.id !== targetTask.id));
-  };
+  const handleTaskComplete = (targetTask) =>{
+    const newTasks = tasks.map(d =>({
+      ...d,
+      isComplete: d.id === targetTask.id ? true : d.isComplete
+    }));
+    setTasks(newTasks);
+  }
+
+  const handleUndoAction = (targetTask) =>{
+    const newTasks = tasks.map(d =>({
+      ...d,
+      isComplete: d.id === targetTask.id ? false : d.isComplete
+    }));
+    setTasks(newTasks);
+  }
 
   return (
     <React.Fragment>
       <ActionGroup 
         addTask={addTask} 
         undoMessage={undoMessage}
-        setUndoAction={setUndoAction}/>
+        setUndoAction={setUndoAction}
+        newUndoTask={newUndoTask}
+        setNewUndoTask={setNewUndoTask}
+        handleUndoAction={handleUndoAction}/>
       <TaskList 
         tasks={tasks} 
-        removeOldTask={removeOldTask}
+        handleTaskComplete={handleTaskComplete}
         setUndoMessage={setUndoMessage}
         setNewUndoTask={setNewUndoTask}
         undoAction={undoAction}

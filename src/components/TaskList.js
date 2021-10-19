@@ -5,21 +5,23 @@ import classes from './TaskList.module.css';
 const TaskList = 
     ({
         tasks, 
-        removeOldTask, 
+        handleTaskComplete,
         setUndoMessage,
         setNewUndoTask,
         undoAction,
         setUndoAction
     }) => {
 
+    const inCompleteTasks = tasks.filter(d=> d.isComplete === false);
+
     return (
         <div className={classes.listBodyContainer}>
             <ul className={classes.listBody}>
-                {tasks.map(task => {
+                {inCompleteTasks.map(task => {
                     return <Task 
                                 key={task.id} 
                                 task={task}
-                                removeOldTask={removeOldTask}
+                                handleTaskComplete={handleTaskComplete}
                                 setUndoMessage={setUndoMessage}
                                 setNewUndoTask={setNewUndoTask}
                                 undoAction={undoAction}

@@ -7,14 +7,20 @@ const ActionGroup =
     ({
         addTask, 
         undoMessage,
-        setUndoAction}) => {
+        setUndoAction, 
+        newUndoTask,
+        setNewUndoTask,
+        handleUndoAction}) => {
     return (
         <div>
             <InputTask 
                 addTask={addTask}/>
             <UnDoTask 
                 undoMessage={undoMessage} 
-                setUndoAction={setUndoAction}/>
+                setUndoAction={setUndoAction}
+                newUndoTask={newUndoTask}
+                setNewUndoTask={setNewUndoTask}
+                handleUndoAction={handleUndoAction}/>
         </div>
     )
   };

@@ -13,7 +13,8 @@ const InputTask = props => {
         if(newTaskContent.length>0){
             const newTask = {
                 content: newTaskContent,
-                id: Math.random().toString()
+                id: Math.random().toString(),
+                isComplete: false
             };
             props.addTask(newTask);
             taskInputRef.current.value='';

@@ -1,54 +1,50 @@
 import React, {useState, useEffect} from 'react';
 import classes from './Task.module.css';
+let UndoMessageTimeout;
 
 const Task = 
     ({
-        task,
-        removeOldTask, 
+        task, 
+        handleTaskComplete,
         setUndoMessage,
         setNewUndoTask,
         undoAction,
         setUndoAction
     }) => {
-
-    const [complete, setComplete]=useState(false);
-    const [style, setStyle] = useState({
-        display: 'flex'
-    });
+    
+   
+    const [completeTransition, setCompleteTransition]=useState(false);
 
     const handleCompleteTask = () => {
-        setComplete(true);
+        setCompleteTransition(true);
+        setNewUndoTask(task);
+
+        setTimeout(()=>{
+            handleTaskComplete(task);
+        }, 500);
+
+        //display UndoMessage for 5s
         setUndoMessage(true);
-        setTimeout(() => setStyle({
-            display: 'none'
-        }), 500);
-        setNewUndoTask((prev)=>{
-            if(prev.content){
-                removeOldTask(prev);
-            }
-            return task;
-        });
-        
-        setTimeout(()=>setUndoMessage(false), 5000);
+        if(UndoMessageTimeout){
+            clearTimeout(UndoMessageTimeout);
+            UndoMessageTimeout = null;
+        }
+        UndoMessageTimeout = setTimeout(()=>setUndoMessage(false), 5000);
     };
     
 
     useEffect(()=>{
         if(undoAction){
-            setStyle({
-                display: 'flex'
-            });
-            setComplete(false);
+            setCompleteTransition(false);
             setUndoMessage(false);
             setUndoAction(false);
-            setNewUndoTask({});
         }
    
     },[undoAction])
 
     return (
 
-        <li className={`${classes.task} ${complete && classes.completed}`} style={style}>
+        <li className={`${classes.task} ${completeTransition && classes.completed}`}>
              <div className={classes.checkmark} onClick ={handleCompleteTask}>
                 <div className={classes.circle}></div>
                 <div className={classes.tick}></div>

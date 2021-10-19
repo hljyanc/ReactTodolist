@@ -4,14 +4,22 @@ import classes from './UnDoTask.module.css'
 const UnDoTask = 
     ({
         undoMessage,
-        setUndoAction}) => {
-
+        setUndoAction,
+        newUndoTask,
+        setNewUndoTask,
+        handleUndoAction}) => {
+    
+    const UndoHandler = () =>{
+        handleUndoAction(newUndoTask);
+        setNewUndoTask({});
+        setUndoAction(true);
+    }
     return (
             <div className={`${classes.btnContainer} ${!undoMessage&&classes.hidden}` } id="undoBtn">
                 <div className={classes.undo}>
                     <p>Task Completed</p>
                     <p 
-                        onClick={()=> setUndoAction(true)} 
+                        onClick={UndoHandler} 
                         className={classes.undoAction}>
                         Undo
                     </p>
